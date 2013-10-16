@@ -39,11 +39,11 @@ fi
 # If -c option is not specified use the default.
 if [[ -z $CURNAME ]]
 then
-  CURNAME='skeleton'
+  CURNAME=$(basename `ls graphs/default/*.xml` | cut -d. -f1)
 fi
 
 echo "Renaming ${CURNAME} roll to ${NEWNAME}"
-echo "   Un-bundling the sample package..."
+echo "   Un-bundling the ${CURNAME} package..."
 ROOT=$(pwd)
 cd src/${CURNAME}
 tar -xzf ${CURNAME}-1.0.tgz
@@ -51,7 +51,7 @@ tar -xzf ${CURNAME}-1.0.tgz
 cd ${ROOT}
 
 echo "   Changing directory names..."
-DIRS=$(find -depth -type d | grep $CURNAME)
+DIRS=$(find . -depth -type d | grep $CURNAME)
 
 for d in ${DIRS}
 do
@@ -62,7 +62,7 @@ do
 done
 
 echo "   Changing file names..."
-FILES=$(find . -type f | grep ${CURNAME})
+FILES=$(find . -depth -type f | grep ${CURNAME})
 
 for f in ${FILES}
 do
@@ -74,7 +74,7 @@ done
 cd ${ROOT}
 
 echo "   Changing file contents...."
-FILES=`find . -type f`
+FILES=`find . -depth -type f | egrep -v "rename_roll.sh|tgz"`
 
 for f in ${FILES}
 do
@@ -83,7 +83,7 @@ do
 done
 cd ${ROOT}
 
-echo "   Bundling sample package..."
+echo "   Bundling ${NEWNAME} package..."
 cd src/${NEWNAME}
 tar -czf "${NEWNAME}-1.0.tgz" "${NEWNAME}-1.0/"
 rm -rf "${NEWNAME}-1.0/"
