@@ -63,5 +63,6 @@ include Rolls.mk
 
 default: roll
 
-clean::
-	/bin/rm -f "./_arch"
+distclean:: clean
+	-rm -f _arch build.log
+	-rm -rf RPMS SRPMS
