@@ -60,22 +60,23 @@ REDHAT.ROOT = $(CURDIR)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
+include pull.mk
 
-
-build:
-	gunzip -c $(NAME)-$(VERSION).$(TARBALL_POSTFIX) | $(TAR) -xf -
+build: $(SRC_DIRS)
 	( 							\
 		cd $(NAME)-$(VERSION);				\
-		./configure --prefix=$(PKGROOT)/$(NAME);	\
+		./configure --prefix=$(PKGROOT);	\
 		$(MAKE);					\
 	)
+	@echo "::: Package $(NAME) build complete :::"
 	
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/$(NAME)
 	(							\
 		cd $(NAME)-$(VERSION);				\
-		$(MAKE) prefix=$(ROOT)/$(PKGROOT)/$(NAME) install;\
+		$(MAKE) prefix=$(ROOT)/$(PKGROOT) install;\
 	)
+	@echo "::: Package $(NAME) install complete :::"
 
 clean::
 	rm -rf $(NAME)-$(VERSION)
