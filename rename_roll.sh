@@ -36,19 +36,14 @@ then
   exit 1
 fi
 
-# If -c option is not specified use the default.
+# If -c option is not specified determine it from graph file.
 if [[ -z $CURNAME ]]
 then
   CURNAME=$(basename `ls graphs/default/*.xml` | cut -d. -f1)
 fi
 
-echo "Renaming ${CURNAME} roll to ${NEWNAME}"
-echo "   Un-bundling the ${CURNAME} package..."
+echo "Renaming ${CURNAME} roll to ${NEWNAME}\n"
 ROOT=$(pwd)
-cd src/${CURNAME}
-tar -xzf ${CURNAME}-1.0.tgz
-/bin/rm -f ${CURNAME}-1.0.tgz
-cd ${ROOT}
 
 echo "   Changing directory names..."
 DIRS=$(find . -depth -type d | grep $CURNAME)
@@ -79,19 +74,24 @@ FILES=`find . -depth -type f | egrep -v "rename_roll.sh|tgz"`
 for f in ${FILES}
 do
   sed -i "s,"${CURNAME}","${NEWNAME}",g" ${f}
-  #echo 'sed -i "s,"${CURNAME}","${NEWNAME}",g" ${f}'
 done
-cd ${ROOT}
-
-echo "   Bundling ${NEWNAME} package..."
-cd src/${NEWNAME}
-tar -czf "${NEWNAME}-1.0.tgz" "${NEWNAME}-1.0/"
-rm -rf "${NEWNAME}-1.0/"
 cd ${ROOT}
 
 echo "   Removing .git directories..."
 find -depth -type d -iname ".git" | xargs /bin/rm -rf
 
-echo "While not required, you should move rename this directory ${NEWNAME}."
+cat << EOF
+
+The following steps are now required after using ./rename_roll.sh...
+
+  - Download or otherwise create src/${NEWNAME}/${NEWNAME}-1.0.tgz
+  - Upload src/${NEWNAME}/${NEWNAME}-1.0.tgz to the DL.SERVER listed in 
+    src/${NEWNAME}/pull.mk
+  - Record size and git hash of src/${NEWNAME}/${NEWNAME}-1.0.tgz in 
+    src/${NEWNAME}/binary_hashes per the instructions in src/${NEWNAME}/README.md
+
+While not required, you should rename this directory ${NEWNAME}-roll to avoid confusion.
+
+EOF
 
 exit 0
