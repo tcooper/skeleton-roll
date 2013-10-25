@@ -42,7 +42,7 @@ then
   CURNAME=$(basename `ls graphs/default/*.xml` | cut -d. -f1)
 fi
 
-echo "Renaming ${CURNAME} roll to ${NEWNAME}\n"
+echo "Renaming ${CURNAME} roll to ${NEWNAME}"
 ROOT=$(pwd)
 
 echo "   Changing directory names..."
@@ -52,9 +52,10 @@ for d in ${DIRS}
 do
   if [ -d ${d} ]; then
     newd=$(echo ${d} | sed "s,\(.*\)"${CURNAME}"\(.*\),\1"${NEWNAME}"\2,g")
-    mv ${d} ${newd};
+    mv ./${d} ./${newd};
   fi
 done
+cd ${ROOT}
 
 echo "   Changing file names..."
 FILES=$(find . -depth -type f | grep ${CURNAME})
@@ -63,22 +64,30 @@ for f in ${FILES}
 do
   if [ -f ${f} ]; then
     newf=$(echo ${f} | sed "s,"${CURNAME}","${NEWNAME}",g");
-    mv ${f} ${newf};
+    mv ./${f} ./${newf};
   fi
 done
 cd ${ROOT}
 
 echo "   Changing file contents...."
-FILES=`find . -depth -type f | egrep -v "rename_roll.sh|tgz"`
+FILES=`find . -depth -type f | egrep -v "rename_roll.sh"`
 
 for f in ${FILES}
 do
-  sed -i "s,"${CURNAME}","${NEWNAME}",g" ${f}
+  sed -i "s,"${CURNAME}","${NEWNAME}",g" ./${f}
 done
 cd ${ROOT}
 
 echo "   Removing .git directories..."
-find -depth -type d -iname ".git" | xargs /bin/rm -rf
+DIRS=$(find . -depth -type d -iname ".git")
+
+for d in ${DIRS}
+do
+  if [ -d ${d} ]; then
+    /bin/rm -rf ./${d};
+  fi
+done
+cd ${ROOT}
 
 cat << EOF
 
