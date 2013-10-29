@@ -1,20 +1,20 @@
 ifndef __PULL_MK
 __PULL_MK = yes
 
-DL.CMD			= $(shell which curl)
-DL.OPTS			= -f -s -LO
-DL.SERVER		= http://forge.sdsc.edu
-DL.PATH			= triton/$(ROLLNAME)/src/$(NAME)
-GREP.CMD		= $(shell which grep)
-STAT.CMD		= $(shell which stat)
-TAR.CMD			= $(shell which tar)
-TGZ.OPTS		= -xzf
-TBZ2.OPTS		= -xjf
-UNZIP.CMD		= $(shell which unzip)
-UNZIP.OPTS		= -q
-VERIFY.CMD		= $(shell which git)
-VERIFY.OPTS		= hash-object -t blob
-VERIFY.HASHES	= binary_hashes
+DL.CMD = $(shell which curl)
+DL.OPTS = -f -s -LO
+DL.SERVER = http://forge.sdsc.edu
+DL.PATH = triton/$(ROLLNAME)/src/$(SRC_SUBDIR)
+GREP.CMD = $(shell which grep)
+STAT.CMD = $(shell which stat)
+TAR.CMD = $(shell which tar)
+TGZ.OPTS = -xzf
+TBZ2.OPTS = -xjf
+UNZIP.CMD = $(shell which unzip)
+UNZIP.OPTS = -q
+VERIFY.CMD = $(shell which git)
+VERIFY.OPTS = hash-object -t blob
+VERIFY.HASHES = binary_hashes
 
 # ALL packages are part of SRC_PKGS
 SRC_PKGS = $(TAR_GZ_PKGS) $(TAR_BZ2_PKGS) $(TGZ_PKGS) $(ZIP_PKGS)
@@ -49,7 +49,7 @@ $(TAR_GZ_DIRS): $(TAR_GZ_PKGS)
 $(TAR_BZ2_DIRS): $(TAR_BZ2_PKGS)
 	@echo "::: Unbundling $@.tar.bz2 :::"
 	@$(TAR.CMD) $(TBZ2.OPTS) $@.tar.bz2
-	@echo ""
+		@echo ""
 
 $(TGZ_DIRS): $(TGZ_PKGS)
 	@echo "::: Unbundling $@.tgz :::"
@@ -68,5 +68,5 @@ SRC_DIRS = $(TAR_GZ_DIRS) $(TAR_BZ2_DIRS) $(TGZ_DIRS) $(ZIP_DIRS)
 clean::
 	-rm -rf $(SRC_DIRS)
 	-rm -rf $(SRC_PKGS)
-        
+
 endif # __PULL_MK
