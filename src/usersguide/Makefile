@@ -56,7 +56,7 @@
 #
 # $Log$
 
-PKGROOT         = /var/www/html/roll-documentation/skeleton/$(VERSION)
+PKGROOT         = /var/www/html/roll-documentation/$(ROLL)/$(VERSION)
 REDHAT.ROOT     = $(PWD)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
