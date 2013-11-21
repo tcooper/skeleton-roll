@@ -63,20 +63,20 @@ include Rules.mk
 include pull.mk
 
 build: $(SRC_DIRS)
-	( 							\
-		cd $(NAME)-$(VERSION);				\
-		./configure --prefix=$(PKGROOT);	\
-		$(MAKE);					\
+	( \
+	  cd $(SOURCE_DIR); \
+	  ./configure --prefix=$(PKGROOT); \
+	  $(MAKE); \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 	
 install::
 	mkdir -p $(ROOT)/$(PKGROOT)/$(NAME)
-	(							\
-		cd $(NAME)-$(VERSION);				\
-		$(MAKE) prefix=$(ROOT)/$(PKGROOT) install;\
+	( \
+	  cd $(SOURCE_DIR); \
+	  $(MAKE) prefix=$(ROOT)/$(PKGROOT) install; \
 	)
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
-	rm -rf $(NAME)-$(VERSION)
+	rm -rf $(SOURCE_DIR)
