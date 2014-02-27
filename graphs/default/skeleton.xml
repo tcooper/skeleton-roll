@@ -21,7 +21,7 @@
 	<!-- add edges here -->
 	<edge from="base">
 		<to>skeleton-base</to>
-	<edge>
+	</edge>
 
 	<!-- enforce post section ordering -->
 	<!-- skeleton-base post sections execute after base post sections -->
