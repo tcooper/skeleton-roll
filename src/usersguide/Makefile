@@ -1,13 +1,13 @@
+#
 # $Id$
 #
 # @Copyright@
 # 
 # 				Rocks(r)
 # 		         www.rocksclusters.org
-# 		         version 5.6 (Emerald Boa)
-# 		         version 6.1 (Emerald Boa)
+# 		       version 6.1.1 (Sand Boa)
 # 
-# Copyright (c) 2000 - 2013 The Regents of the University of California.
+# Copyright (c) 2000 - 2014 The Regents of the University of California.
 # All rights reserved.	
 # 
 # Redistribution and use in source and binary forms, with or without
@@ -55,6 +55,7 @@
 # @Copyright@
 #
 # $Log$
+#
 
 PKGROOT         = /var/www/html/roll-documentation/$(ROLL)/$(VERSION)
 REDHAT.ROOT     = $(PWD)/../../
